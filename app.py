@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -17,15 +17,25 @@ def get_db():
 
 @app.route('/')
 def ping_server():
-    return "Welcome to the world of animals."
+    return "The server is running smoothly"
 
-
-@app.route('/animals')
-def get_stored_animals():
+@app.route('/markdown')
+def get_all_markdown():
     db = get_db()
-    _animals = db.animal_tb.find()
-    animals = [{"id": animal["id"], "name": animal["name"], "type": animal["type"]} for animal in _animals]
-    return jsonify({"animals": animals})
+    result = [{"text": markdown["text"]} for markdown in db.markdown.find()]
+    return jsonify(result)
+
+@app.route('/markdown/<id>')
+def get_markdown_by_id(id):
+    db = get_db()
+    result = [{"text": markdown["text"]} for markdown in db.markdown.find({"_id": id})]
+    return jsonify(result)
+
+@app.route('/markdown', methods = ["POST"])
+def post_markdown():
+    db = get_db()
+    db.markdown.insert_one({"text": request.form.get('text')})
+    return jsonify({"text": request.form.get('text')})
 
 
 if __name__ == '__main__':

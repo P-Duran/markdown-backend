@@ -1,27 +1,29 @@
-app:
-  container_name: flask
-  build: .
-  command: python -u app.py
-  environment:
-    MONGODB_DATABASE: animal_db
-    MONGODB_USERNAME: flaskuser
-    MONGODB_PASSWORD: your_password
-    MONGODB_HOSTNAME: mongodb
-  ports:
-    - "5000:5000"
-  volumes:
-    - .:/app
-  links:
-    - db
-db:
-  container_name: mongodb
-  image: mongo:latest
-  hostname: mongodb
-  environment:
-    - MONGO_INITDB_DATABASE=animal_db
-    - MONGO_INITDB_ROOT_USERNAME=root
-    - MONGO_INITDB_ROOT_PASSWORD=pass
-  volumes:
-    - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
-  ports:
-    - 27017:27017
+version: "3"
+services:
+  app:
+    container_name: flask
+    build: .
+    command: python -u app.py
+    environment:
+      MONGODB_DATABASE: markdown_db
+      MONGODB_USERNAME: markdown_backend
+      MONGODB_PASSWORD: Cep%mc7X4msE6mBU
+      MONGODB_HOSTNAME: mongodb
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    links:
+      - db
+  db:
+    container_name: mongodb
+    image: mongo:latest
+    hostname: mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=markdown_db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    ports:
+      - 27017:27017
