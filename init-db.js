@@ -4,7 +4,7 @@ db.createUser({user: 'markdown_backend', pwd: 'Cep%mc7X4msE6mBU', roles: [{role:
 
 db.markdown.insertMany([
     {
-        "text": "# Title\n## Subtitle\n**bold**",
-        "user": "paco"
+        "markdown": "# Title\n## Subtitle\n**bold**",
+        "user": "paco",
     }
 ]);
