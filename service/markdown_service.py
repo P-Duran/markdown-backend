@@ -1,3 +1,4 @@
+import datetime
 from typing import List, Optional
 
 from model.repositories.markdown.markdown_document import MarkdownDocument
@@ -18,6 +19,7 @@ class MarkdownService(metaclass=SingletonMeta):
         return None
 
     def insert_one(self, document: MarkdownDocument):
-        self.markdown_repository.insert_one(document)
-        return MarkdownDocument(document)
+        new_document = document.copy_with(creationDate = datetime.datetime.now())
+        self.markdown_repository.insert_one(new_document)
+        return MarkdownDocument(new_document)
 
