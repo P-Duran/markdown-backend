@@ -1,10 +1,12 @@
 from flask import Flask
 
 from controller.markdown_controller import markdown_controller
+from controller.user_controller import user_controller
 
 app = Flask(__name__)
-
+app.secret_key = "testing"
 app.register_blueprint(markdown_controller)
+app.register_blueprint(user_controller)
 
 @app.route('/')
 def ping_server():

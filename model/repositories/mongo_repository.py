@@ -1,6 +1,7 @@
 import os
 from pymongo import MongoClient
 from model.metaclass.singleton_meta import SingletonMeta
+from model.repositories.mongo_document import MongoDocument
 
 
 class MongoRepository(metaclass=SingletonMeta):
@@ -16,11 +17,23 @@ class MongoRepository(metaclass=SingletonMeta):
     def find_all(self):
         return self.database.find()
 
-    def find_by_id(self, _id):
+    def find_by_id(self, id):
         return self.database.find({"_id": id})
 
-    def insert_one(self, document):
-        return self.database.insert_one(document)
+    def find(self, query: dict):
+        return self.database.find(query)
+
+    def find_one(self, query: dict):
+        return self.database.find_one(query)
+
+    def save(self, document: MongoDocument):
+        return self.database.update_one({'_id':document.id}, {"$set": document}, upsert = True)
+
+    def delete(self, id):
+        return self.database.delete_one({'_id': id})
+
+    def delete_all(self, query):
+        return self.database.delete_many(query)
 
 
 #--------------DECORATOR--------------
@@ -30,11 +43,9 @@ def collection(collection):
     # it takes the original class, modifies it in place, and returns
     # the same class
     def wrapper(wrapped):
-        print(dir(wrapped))
         the_init = wrapped.__init__
 
         def new_init(self):
-            print(dir(self))
             super(self.__class__, self).__init__(collection)
             the_init(self, collection)
 
