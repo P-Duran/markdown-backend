@@ -11,7 +11,7 @@ class SessionService(metaclass=SingletonMeta):
     def set_user(self, user: UserSession):
         session["user"] = user
 
-    def get_user(self) -> Optional[UserSession]:
+    def current_user(self) -> Optional[UserSession]:
         if "user" not in session:
             return None
         return UserSession(session["user"])

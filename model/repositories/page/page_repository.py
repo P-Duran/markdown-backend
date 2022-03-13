@@ -1,6 +1,6 @@
 from model.repositories.mongo_repository import MongoRepository, collection
 
 
-@collection("markdown")
-class MarkdownRepository(MongoRepository):
+@collection("page")
+class PageRepository(MongoRepository):
     pass

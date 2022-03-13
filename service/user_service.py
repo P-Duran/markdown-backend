@@ -19,9 +19,6 @@ class UserService(metaclass=SingletonMeta):
     user_repository = UserRepository()
     session_service = SessionService()
 
-    def current_user(self):
-        return self.session_service.get_user()
-
     def find_by_email(self, email: str):
         user = self.user_repository.find_one({"email": email})
         if not user:

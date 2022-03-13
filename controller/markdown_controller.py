@@ -7,22 +7,26 @@ markdown_service = MarkdownService()
 
 markdown_controller = Blueprint('markdown', __name__, url_prefix='/markdown')
 
+
 @markdown_controller.route("/")
-def get_all_markdown():
+def get_all_workspace():
     result = markdown_service.find_all()
     return jsonify(result)
 
+
 @markdown_controller.route('/<id>')
-def get_markdown_by_id(id):
+def get_workspace_by_id(id):
     result = markdown_service.find_by_id(id)
     return jsonify(result)
 
-@markdown_controller.route("/", methods = ["POST"])
+
+@markdown_controller.route("/", methods=["POST"])
 def post_markdown():
     result = markdown_service.save(MarkdownDocument(request.json))
     return jsonify(result)
 
-@markdown_controller.route('/<id>', methods = ["DELETE"])
+
+@markdown_controller.route('/<id>', methods=["DELETE"])
 def delete_markdown(id):
     result = markdown_service.delete(id)
     return jsonify(result)
