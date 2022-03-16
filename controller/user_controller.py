@@ -35,5 +35,4 @@ def logout():
 @requires_roles([Role.ADMIN])
 @requires_login
 def test():
-    a = None
-    return "test"
+    return "Nice, you have logged and you have the ADMIN role, nicele"
