@@ -24,7 +24,7 @@ def requires_roles(roles: List[Role]):
         def wrapped(*args, **kwargs):
             current_user = session_service.current_user()
             if not current_user:
-                return abort(Response("User needs to be authenticated"), HTTPStatus.FORBIDDEN)
+                return abort(Response("User needs to be authenticated"), HTTPStatus.UNAUTHORIZED)
             user = user_service.find_by_username(current_user)
 
             if user is None or Role[user.role] not in roles:
