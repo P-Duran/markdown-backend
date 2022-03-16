@@ -26,13 +26,6 @@ class UserService(metaclass=SingletonMeta):
 
         return UserDocument(user)
 
-    def find_by_username(self, user: str):
-        user = self.user_repository.find_one({"name": user})
-        if not user:
-            return None
-
-        return UserDocument(user)
-
     def delete(self, id) -> Optional[UserDocument]:
         deleted_item = self.user_repository.find_by_id(id)
         self.user_repository.delete(id)
@@ -61,7 +54,9 @@ class UserService(metaclass=SingletonMeta):
         return user
 
     def logout(self):
+        current_user = self.session_service.current_user()
         self.session_service.remove_user()
+        return current_user
 
 
 def __validate_register_request__(request: UserRegisterRequest):

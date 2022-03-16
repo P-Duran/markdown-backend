@@ -25,10 +25,10 @@ def login():
     return "User '" + user.name + "' correctly logged"
 
 
-@requires_login
 @user_controller.route("/logout", methods=["POST"])
+@requires_login
 def logout():
-    user_service.logout()
+    return "User '" + user_service.logout().name + "' correctly logged out"
 
 
 @user_controller.route("/test")
@@ -36,5 +36,4 @@ def logout():
 @requires_login
 def test():
     a = None
-    a.roi()
     return "test"

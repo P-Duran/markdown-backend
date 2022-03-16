@@ -25,7 +25,7 @@ def requires_roles(roles: List[Role]):
             current_user = session_service.current_user()
             if not current_user:
                 return abort(Response("User needs to be authenticated"), HTTPStatus.UNAUTHORIZED)
-            user = user_service.find_by_username(current_user)
+            user = user_service.find_by_email(current_user.email)
 
             if user is None or Role[user.role] not in roles:
                 return abort(Response("Current user does not have the required roles"), HTTPStatus.FORBIDDEN)
