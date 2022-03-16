@@ -25,6 +25,7 @@ def login():
     return "User '" + user.name + "' correctly logged"
 
 
+@requires_login
 @user_controller.route("/logout", methods=["POST"])
 def logout():
     user_service.logout()
