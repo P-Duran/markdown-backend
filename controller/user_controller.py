@@ -35,4 +35,6 @@ def logout():
 @requires_roles([Role.ADMIN])
 @requires_login
 def test():
+    a = None
+    a.roi()
     return "test"

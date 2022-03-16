@@ -9,29 +9,29 @@ page_service = PageService()
 page_controller = Blueprint('page', __name__, url_prefix='/page')
 
 
-@requires_login
 @page_controller.route("/")
+@requires_login
 def get_all_markdown():
     result = page_service.find_all()
     return jsonify(result)
 
 
-@requires_login
 @page_controller.route('/<id>')
+@requires_login
 def get_markdown_by_id(id):
     result = page_service.find_by_id(id)
     return jsonify(result)
 
 
-@requires_login
 @page_controller.route("/", methods=["POST"])
+@requires_login
 def post_markdown():
     result = page_service.save(PageDocument(request.json))
     return jsonify(result)
 
 
-@requires_login
 @page_controller.route('/<id>', methods=["DELETE"])
+@requires_login
 def delete_markdown(id):
     result = page_service.delete(id)
     return jsonify(result)
