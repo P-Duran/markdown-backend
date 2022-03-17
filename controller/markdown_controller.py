@@ -3,8 +3,10 @@ from flask import Blueprint, jsonify, request
 from model.decorators.controller_decorators import requires_login
 from model.repositories.markdown.markdown_document import MarkdownDocument
 from service.markdown_service import MarkdownService
+from service.page_service import PageService
 
 markdown_service = MarkdownService()
+page_service = PageService()
 
 markdown_controller = Blueprint('markdown', __name__, url_prefix='/markdown')
 
@@ -12,7 +14,7 @@ markdown_controller = Blueprint('markdown', __name__, url_prefix='/markdown')
 @markdown_controller.route("/")
 @requires_login
 def get_all_workspace():
-    result = markdown_service.find_all()
+    result = markdown_service.find_with_query(request.args.to_dict())
     return jsonify(result)
 
 
@@ -34,4 +36,5 @@ def post_markdown():
 @requires_login
 def delete_markdown(id):
     result = markdown_service.delete(id)
+    page_service.delete_all_by_workspace(id)
     return jsonify(result)

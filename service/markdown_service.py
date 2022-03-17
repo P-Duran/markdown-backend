@@ -12,6 +12,14 @@ class MarkdownService(metaclass=SingletonMeta):
     markdown_repository = MarkdownRepository()
     session_service = SessionService()
 
+    def find_with_query(self, query: dict):
+        return [MarkdownDocument(doc) for doc in self.markdown_repository.find(query)]
+
+    def delete_with_query(self, query: dict):
+        result = self.find_with_query(query)
+        self.markdown_repository.delete_all(query)
+        return result
+
     def find_all(self) -> List[MarkdownDocument]:
         return [MarkdownDocument(doc) for doc in self.markdown_repository.find_all()]
 
@@ -33,6 +41,5 @@ class MarkdownService(metaclass=SingletonMeta):
 
     def delete(self, id) -> Optional[MarkdownDocument]:
         deleted_item = self.find_by_id(id)
-        # self.markdown_service.delete_all_by_workspace(id)
         self.markdown_repository.delete(id)
         return deleted_item

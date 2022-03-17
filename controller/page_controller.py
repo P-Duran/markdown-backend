@@ -12,7 +12,7 @@ page_controller = Blueprint('page', __name__, url_prefix='/page')
 @page_controller.route("/")
 @requires_login
 def get_all_markdown():
-    result = page_service.find_all()
+    result = page_service.find_all_with_query(request.args.to_dict())
     return jsonify(result)
 
 
