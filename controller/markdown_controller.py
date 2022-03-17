@@ -36,5 +36,5 @@ def post_markdown():
 @requires_login
 def delete_markdown(id):
     result = markdown_service.delete(id)
-    page_service.delete_all_by_workspace(id)
+    page_service.delete_all_by_markdown(id)
     return jsonify(result)

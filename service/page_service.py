@@ -26,8 +26,8 @@ class PageService(metaclass=SingletonMeta):
             return result[0]
         return None
 
-    def find_all_by_workspace(self, workspace: str) -> List[PageDocument]:
-        return [PageDocument(doc) for doc in self.page_repository.find({"workspace": workspace})]
+    def find_all_by_workspace(self, markdown: str) -> List[PageDocument]:
+        return [PageDocument(doc) for doc in self.page_repository.find({"markdown": markdown})]
 
     def find_all_with_query(self, query: dict) -> List[PageDocument]:
         return [PageDocument(doc) for doc in self.page_repository.find(query)]
@@ -37,16 +37,16 @@ class PageService(metaclass=SingletonMeta):
         current_user = self.session_service.current_user()
         if document.id is None or self.find_by_id(document.id) is None:
             document = document.copy_with(_id=str(uuid.uuid4()), createdAt=now, updatedAt=now, user=current_user.name)
-            if not self.markdown_service.find_by_id(document.workspace):
-                abort(Response("Workspace with id '" + str(document.workspace) + "' not found",
+            if not self.markdown_service.find_by_id(document.markdown):
+                abort(Response("Markdown with id '" + str(document.markdown) + "' not found",
                                status=HTTPStatus.NOT_FOUND))
         else:
             document = document.copy_with(updatedAt=now)
         self.page_repository.save(document)
         return PageDocument(document)
 
-    def delete_all_by_workspace(self, workspace):
-        self.page_repository.delete_all({"workspace": workspace})
+    def delete_all_by_markdown(self, markdown):
+        self.page_repository.delete_all({"markdown": markdown})
 
     def delete(self, id) -> Optional[PageDocument]:
         deleted_item = self.find_by_id(id)
