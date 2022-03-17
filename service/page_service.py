@@ -3,7 +3,7 @@ import uuid
 from http import HTTPStatus
 from typing import List, Optional
 
-from flask import Response, abort
+from flask import abort, Response
 
 from model.metaclass.singleton_meta import SingletonMeta
 from model.repositories.page.page_document import PageDocument
@@ -38,7 +38,8 @@ class PageService(metaclass=SingletonMeta):
         if document.id is None or self.find_by_id(document.id) is None:
             document = document.copy_with(_id=str(uuid.uuid4()), createdAt=now, updatedAt=now, user=current_user.name)
             if not self.markdown_service.find_by_id(document.workspace):
-                abort(Response("Workspace with id '" + str(document.workspace) + "' not found", HTTPStatus.NOT_FOUND))
+                abort(Response("Workspace with id '" + str(document.workspace) + "' not found",
+                               status=HTTPStatus.NOT_FOUND))
         else:
             document = document.copy_with(updatedAt=now)
         self.page_repository.save(document)
