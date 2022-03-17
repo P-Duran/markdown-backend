@@ -30,7 +30,7 @@ def requires_roles(roles: List[Role]):
             if not current_user:
                 return abort(Response("User needs to be authenticated", status=HTTPStatus.UNAUTHORIZED))
             user = user_service.find_by_email(current_user.email)
-            print(user)
+
             if user is None or user.role is None or Role[user.role] not in roles:
                 return abort(Response("Current user does not have the required roles", status=HTTPStatus.FORBIDDEN))
             return f(*args, **kwargs)
