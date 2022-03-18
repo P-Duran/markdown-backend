@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 
 from controller.markdown_controller import markdown_controller
 from controller.page_controller import page_controller
@@ -18,7 +18,10 @@ def ping_server():
 
 @app.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers['Access-Control-Allow-Methods']='*'
+    response.headers['Access-Control-Allow-Origin']='*'
+    response.headers['Access-Control-Allow-Headers']='*'
+    response.headers['Vary']='Origin'
     return response
 
 

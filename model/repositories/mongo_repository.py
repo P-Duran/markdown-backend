@@ -14,12 +14,6 @@ class MongoRepository(metaclass=SingletonMeta):
                          authSource=os.environ['MONGODB_DATABASE'])
         self.database = db[os.environ['MONGODB_DATABASE']][collection]
 
-    def find_all(self):
-        return self.database.find()
-
-    def find_by_id(self, id):
-        return self.database.find({"_id": id})
-
     def find(self, query: dict):
         return self.database.find(query)
 
@@ -29,10 +23,10 @@ class MongoRepository(metaclass=SingletonMeta):
     def save(self, document: MongoDocument):
         return self.database.update_one({'_id':document.id}, {"$set": document}, upsert = True)
 
-    def delete(self, id):
-        return self.database.delete_one({'_id': id})
+    def delete_one(self, query: dict):
+        return self.database.delete_one(query)
 
-    def delete_all(self, query):
+    def delete_all(self, query: dict):
         return self.database.delete_many(query)
 
 

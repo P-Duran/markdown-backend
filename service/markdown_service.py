@@ -21,10 +21,10 @@ class MarkdownService(metaclass=SingletonMeta):
         return result
 
     def find_all(self) -> List[MarkdownDocument]:
-        return [MarkdownDocument(doc) for doc in self.markdown_repository.find_all()]
+        return [MarkdownDocument(doc) for doc in self.markdown_repository.find({})]
 
     def find_by_id(self, id) -> Optional[MarkdownDocument]:
-        result = [MarkdownDocument(doc) for doc in self.markdown_repository.find_by_id(id)]
+        result = [MarkdownDocument(doc) for doc in self.markdown_repository.find({"_id": id})]
         if len(result) > 0:
             return result[0]
         return None

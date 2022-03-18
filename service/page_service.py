@@ -18,10 +18,10 @@ class PageService(metaclass=SingletonMeta):
     session_service = SessionService()
 
     def find_all(self) -> List[PageDocument]:
-        return [PageDocument(doc) for doc in self.page_repository.find_all()]
+        return [PageDocument(doc) for doc in self.page_repository.find({})]
 
     def find_by_id(self, id) -> Optional[PageDocument]:
-        result = [PageDocument(doc) for doc in self.page_repository.find_by_id(id)]
+        result = [PageDocument(doc) for doc in self.page_repository.find({"_id": id})]
         if len(result) > 0:
             return result[0]
         return None
