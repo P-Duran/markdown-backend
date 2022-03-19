@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_cors import CORS
 
 from model.decorators.controller_decorators import requires_login
 from model.repositories.markdown.markdown_document import MarkdownDocument
@@ -9,6 +10,7 @@ markdown_service = MarkdownService()
 page_service = PageService()
 
 markdown_controller = Blueprint('markdown', __name__, url_prefix='/markdown')
+CORS(markdown_controller, supports_credentials=True)
 
 
 @markdown_controller.route("/")

@@ -33,7 +33,7 @@ class UserService(metaclass=SingletonMeta):
         return deleted_item
 
     def register(self, request: UserRegisterRequest):
-        __validate_register_request__(request)
+        self.__validate_register_request__(request)
 
         hashed = bcrypt.hashpw(request.password2.encode('utf-8'), bcrypt.gensalt())
         document = UserDocument({"name": request.username, "email": request.email, "password": hashed})
@@ -59,9 +59,19 @@ class UserService(metaclass=SingletonMeta):
         return current_user
 
 
-def __validate_register_request__(request: UserRegisterRequest):
-    if request.password1 != request.password2:
-        abort(Response("passwords do not match", status=HTTPStatus.BAD_REQUEST))
+    def __validate_register_request__(self, request: UserRegisterRequest):
+
+        if not request.username or not request.email or not request.password1:
+            abort(Response("ALl the fields have to be filled", status=HTTPStatus.BAD_REQUEST))
+
+        if self.user_repository.find_one({"name": request.username}):
+            abort(Response("User already taken", status=HTTPStatus.BAD_REQUEST))
+
+        if self.user_repository.find_one({"email": request.email}):
+            abort(Response("Email already used", status=HTTPStatus.BAD_REQUEST))
+
+        if request.password1 != request.password2:
+            abort(Response("passwords do not match", status=HTTPStatus.BAD_REQUEST))
 
 
 def __validate_login_request__(request: UserLoginRequest, user: UserDocument):

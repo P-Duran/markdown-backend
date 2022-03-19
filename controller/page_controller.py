@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_cors import CORS
 
 from model.decorators.controller_decorators import requires_login
 from model.repositories.page.page_document import PageDocument
@@ -7,6 +8,7 @@ from service.page_service import PageService
 page_service = PageService()
 
 page_controller = Blueprint('page', __name__, url_prefix='/page')
+CORS(page_controller, supports_credentials=True)
 
 
 @page_controller.route("/")
