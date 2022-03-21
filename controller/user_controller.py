@@ -27,20 +27,18 @@ def login():
     print(session)
     login_request = UserLoginRequest(request.json)
     user_service.login(login_request)
-    print(session)
     return jsonify(session_service.current_user())
 
 
 @user_controller.route("/logout", methods=["POST"])
 @requires_login
 def logout():
-    return "User '" + user_service.logout().username + "' correctly logged out"
+    return "User '" + user_service.logout().name + "' correctly logged out"
 
 
 @user_controller.route("/current-user")
 @requires_login
 def current_user():
-    print(session)
     user = session_service.current_user()
     if user:
         return jsonify(user)
