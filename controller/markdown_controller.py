@@ -3,11 +3,13 @@ from flask_cors import CORS
 
 from model.decorators.controller_decorators import requires_login
 from model.repositories.markdown.markdown_document import MarkdownDocument
+from service.markdown_details_service import MarkdownDetailsService
 from service.markdown_service import MarkdownService
 from service.page_service import PageService
 
 markdown_service = MarkdownService()
 page_service = PageService()
+markdown_details_service = MarkdownDetailsService()
 
 markdown_controller = Blueprint('markdown', __name__, url_prefix='/markdown')
 CORS(markdown_controller, supports_credentials=True)
@@ -16,7 +18,7 @@ CORS(markdown_controller, supports_credentials=True)
 @markdown_controller.route("/")
 @requires_login
 def get_all_workspace():
-    result = markdown_service.find_with_query(request.args.to_dict())
+    result = markdown_details_service.find_with_query(request.args.to_dict())
     return jsonify(result)
 
 
