@@ -13,7 +13,7 @@ class PageRepository(MongoRepository):
         return super(PageRepository, self).find_one(self.__inject_restriction__(query))
 
     def delete(self, id):
-        return super(PageRepository, self).delete_one(self.__inject_restriction__({"id": id}))
+        return super(PageRepository, self).delete_one(self.__inject_restriction__({"_id": id}))
 
     def __inject_restriction__(self, query: dict) -> dict:
         return {**query, "user": self.session_service.current_user().name}

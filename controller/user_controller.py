@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 
 from model.decorators.controller_decorators import requires_login, requires_roles
@@ -24,7 +24,6 @@ def register_user():
 
 @user_controller.route("/login", methods=["POST"])
 def login():
-    print(session)
     login_request = UserLoginRequest(request.json)
     user_service.login(login_request)
     return jsonify(session_service.current_user())

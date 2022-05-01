@@ -11,7 +11,7 @@ page_controller = Blueprint('page', __name__, url_prefix='/page')
 CORS(page_controller, supports_credentials=True)
 
 
-@page_controller.route("/")
+@page_controller.route("")
 @requires_login
 def get_all_markdown():
     result = page_service.find_all_with_query(request.args.to_dict())
