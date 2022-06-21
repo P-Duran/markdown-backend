@@ -6,6 +6,7 @@ class PageDocument(MongoDocument):
     title: str = None
     text: str = None
     user: str = None
+    icon: str = None
     markdown: str = None
     createdAt: datetime = None
     updatedAt: datetime = None
